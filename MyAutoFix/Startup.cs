@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyAutoFix.Data;
+using MyAutoFix.Extensions;
 using MyAutoFix.Models.Identity;
 using System;
 using System.Collections.Generic;
@@ -26,10 +28,19 @@ namespace MyAutoFix
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews();
+            //IoC Container
+            services.AddDbContext<MyContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("SqlConnection"));
+            });
+
             services.AddIdentity<ApplicationUser, AplicationRole>(options =>
             {
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 5;
 
                 options.Lockout.MaxFailedAccessAttempts = 3;
@@ -39,26 +50,20 @@ namespace MyAutoFix
                 options.User.RequireUniqueEmail = true;
                 options.User.AllowedUserNameCharacters =
                     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-            }).AddEntityFrameworkStores<MyContext>();
+            })
+                .AddEntityFrameworkStores<MyContext>().AddDefaultTokenProviders();
 
             services.ConfigureApplicationCookie(options =>
             {
-                // Cookie settings
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                //Cokkie Settings
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
 
                 options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Account/AccessDenied";
                 options.SlidingExpiration = true;
-            });
 
-            //services.AddScoped<IMyDependency, NewMyDependency>();
-
-            //IoC Container
-            services.AddDbContext<MyContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("SqlConnection"));
             });
-            services.AddControllersWithViews();
+            services.AddApplicationServices(this.Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,10 +85,10 @@ namespace MyAutoFix
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
-
                 //Area Ýçin
                 endpoints.MapAreaControllerRoute("Admin", "Admin", "Admin/{controller=Manage}/{action=Index}/{Id?}");
 

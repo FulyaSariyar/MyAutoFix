@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Iyzipay.Model;
+using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyAutoFix.Models.Identity
@@ -12,7 +14,7 @@ namespace MyAutoFix.Models.Identity
         public string Surname { get; set; }
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
-        //public virtual List<Address> Addresses { get; set; }
+        public virtual List<Address> Addresses { get; set; }
 
         //public virtual List<Subscription> Subscriptions { get; set; }
     }
