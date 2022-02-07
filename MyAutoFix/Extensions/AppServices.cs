@@ -7,8 +7,9 @@ namespace MyAutoFix.Extensions
 {
     public static class AppServices
     {
+
         public static IServiceCollection AddApplicationServices(this IServiceCollection services,
-           IConfiguration configuration)
+            IConfiguration configuration)
         {
             services.AddAutoMapper(options =>
             {

@@ -2,7 +2,7 @@
 
 namespace MyAutoFix.MapperProfiles
 {
-    public class AccountProfile
+    public class AccountProfile:Profile
     {
         
             public AccountProfile()

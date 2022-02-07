@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyAutoFix.Models.Entities
 {
-    public class Address
+    public class Address : BaseEntity
     {
         public string Line { get; set; }
         public string PostCode { get; set; }

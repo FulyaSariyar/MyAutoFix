@@ -5,6 +5,7 @@ namespace MyAutoFix.Models.Entities
 {
     public class BaseEntity
     {
+        [Key]
         public Guid Id { get; set; }
         public DateTime CreatedDate { get; set; }
         [StringLength(128)]

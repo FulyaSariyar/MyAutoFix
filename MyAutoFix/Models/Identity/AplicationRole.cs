@@ -2,7 +2,7 @@
 
 namespace MyAutoFix.Models.Identity
 {
-    public class AplicationRole:IdentityRole
+    public class AplicationRole : IdentityRole
     {
         public AplicationRole()
         {
