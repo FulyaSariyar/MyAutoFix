@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MyAutoFix.Areas.Admin.Controllers
 {
@@ -9,6 +10,12 @@ namespace MyAutoFix.Areas.Admin.Controllers
             return View();
         }
         public IActionResult User()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public IActionResult Login()
         {
             return View();
         }
