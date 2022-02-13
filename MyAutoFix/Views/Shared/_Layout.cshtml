@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MyAutoFix</title>
-    @*<link rel="stylesheet" href="~/assets/css/site.css" />*@
+    <title>@ViewData["Title"] - AutoFix</title>
+  
 
-     <!-- Bootstrap CSS -->
+        <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
         <!-- Meanmenu CSS -->
         <link rel="stylesheet" href="~/assets/css/meanmenu.css">
@@ -27,9 +27,11 @@
         <title>Audeck - Auto Service and Car Repair HTML Template</title>
 
         <link rel="icon" type="image/png" href="~/assets/img/favicon.png">
+    @await RenderSectionAsync("Styles", required: false)
+
 </head>
 <body>
-   <!-- Preloader -->
+     <!-- Preloader -->
         <div class="loader">
             <div class="d-table">
                 <div class="d-table-cell">
@@ -55,8 +57,8 @@
      <!--====== Footer PART START ======-->
      <partial name="Partials/_FooterPartial"/>
     <!--====== Footer PART ENDS ======-->
-@*    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
+    @*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>*@
 
       <!-- Essential JS -->

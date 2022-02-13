@@ -95,6 +95,7 @@ namespace MyAutoFix
 
             app.UseRouting();
 
+           
             app.UseAuthentication();
             app.UseAuthorization();
 

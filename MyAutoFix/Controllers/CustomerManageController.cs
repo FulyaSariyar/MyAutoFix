@@ -8,5 +8,9 @@ namespace MyAutoFix.Controllers
         {
             return View();
         }
+        public IActionResult FailureLogging()
+        {
+            return View();
+        }
     }
 }
