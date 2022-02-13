@@ -373,6 +373,5 @@ namespace MyAutoFix.Controllers
 
             return View();
         }
-
     }
 }
