@@ -21,10 +21,6 @@
     <PackageReference Include="UsefullMethods" Version="1.0.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Models\" />
-  </ItemGroup>
   
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
