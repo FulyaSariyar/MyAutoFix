@@ -40,19 +40,6 @@ namespace MyAutoFix.Areas.Admin.Controllers
         {
             var data = _userManager.Users.FirstOrDefault(x => x.Id == key);
 
-            var userRoleUpdateModel = new UserRoleUpdateViewModel();
-
-            JsonConvert.PopulateObject(values, userRoleUpdateModel);
-            if (!string.IsNullOrEmpty(userRoleUpdateModel.RoleId))
-            {
-                var userrole = _dbContext.UserRoles.Where(x => x.UserId == data.Id);
-               
-
-
-
-                //rol güncellenecek
-            }
-
             if (data == null)
                 return StatusCode(StatusCodes.Status409Conflict, new JsonResponseViewModel()
                 {
@@ -75,23 +62,15 @@ namespace MyAutoFix.Areas.Admin.Controllers
             return Ok(new JsonResponseViewModel());
         }
         [HttpGet]
-        public async Task<object> RolesLookUp(string userId, DataSourceLoadOptions loadOptions)
+        public object RolesLookUp(string userId, DataSourceLoadOptions loadOptions)
         {
-            string role = string.Empty;
-            if (!string.IsNullOrEmpty(userId))
-            {
-                var user = await _userManager.FindByIdAsync(userId);
-                role = _userManager.GetRolesAsync(user).Result.First();
-            }
-
             var data = _dbContext.Roles
                .OrderBy(x => x.Id)
                .Select(x => new
                {
                    //id = x.Id,
                    Value = x.Id,
-                   Text = $"{x.Name}",
-                   Selected = x.Name == role ? true : false
+                   Text = $"{x.Name}"
                });
 
             var userRoles = _dbContext.UserRoles.Where(x => x.UserId == userId).Select(x => x.RoleId).ToList();
@@ -100,6 +79,24 @@ namespace MyAutoFix.Areas.Admin.Controllers
         }
 
         //[HttpGet]
+        //public IActionResult GetTest()
+        //{
+        //    var users = new List<UserProfileViewModel>();
+        //    for (int i = 0; i < 10000; i++)
+        //    {
+        //        users.Add(new UserProfileViewModel
+        //        {
+        //            Email = "Deneme" + i,
+        //            Surname = "Soyad" + i,
+        //            Name = "ad" + i
+        //        });
+        //    }
+
+        //    return Ok(new JsonResponseViewModel()
+        //    {
+        //        Data = users
+        //    });
+        //}//[HttpGet]
         //public IActionResult GetTest()
         //{
         //    var users = new List<UserProfileViewModel>();
