@@ -21,12 +21,6 @@ namespace MyAutoFix.Controllers
             {
                 return Ok(model);
             }
-
-
-
-
-
-
             return Ok(model);
         }
     }

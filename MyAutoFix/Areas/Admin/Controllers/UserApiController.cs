@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 
 namespace MyAutoFix.Areas.Admin.Controllers
 {
-
     [Route("api/[controller]/[action]")]
 
     [Authorize(Roles = "Admin")]
@@ -38,6 +37,7 @@ namespace MyAutoFix.Areas.Admin.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateUsers(string key, string values)
         {
+            //Kullanıcı 
             var data = _userManager.Users.FirstOrDefault(x => x.Id == key);
 
             if (data == null)
@@ -46,6 +46,21 @@ namespace MyAutoFix.Areas.Admin.Controllers
                     IsSuccess = false,
                     ErrorMessage = "Kullanıcı Bulunamadı"
                 });
+
+            var userRoleUpdateModel = new UserRoleUpdateViewModel();
+            var useroldrole = _dbContext.UserRoles.Where(x => x.UserId == data.Id).Select(x => x.RoleId).Single();
+
+            string oldRoleName = _dbContext.Roles.SingleOrDefault(r => r.Id == useroldrole).Name;
+
+            JsonConvert.PopulateObject(values, userRoleUpdateModel);
+            string newroleName = _dbContext.Roles.SingleOrDefault(r => r.Id == userRoleUpdateModel.RoleId).Name;
+
+            if (!string.IsNullOrEmpty(userRoleUpdateModel.RoleId))
+            {
+                await _userManager.RemoveFromRoleAsync(data, oldRoleName);
+                await _userManager.AddToRoleAsync(data, newroleName);
+
+            }
 
             JsonConvert.PopulateObject(values, data); //değişiklik varsa değişiklik olanları günceller
             if (!TryValidateModel(data))
@@ -62,15 +77,23 @@ namespace MyAutoFix.Areas.Admin.Controllers
             return Ok(new JsonResponseViewModel());
         }
         [HttpGet]
-        public object RolesLookUp(string userId, DataSourceLoadOptions loadOptions)
+        public async Task<object> RolesLookUp(string userId, DataSourceLoadOptions loadOptions)
         {
+            string role = string.Empty;
+            if (!string.IsNullOrEmpty(userId))
+            {
+                var user = await _userManager.FindByIdAsync(userId);
+                role = _userManager.GetRolesAsync(user).Result.First();
+            }
+
             var data = _dbContext.Roles
                .OrderBy(x => x.Id)
                .Select(x => new
                {
                    //id = x.Id,
                    Value = x.Id,
-                   Text = $"{x.Name}"
+                   Text = $"{x.Name}",
+                   Selected = x.Name == role ? true : false
                });
 
             var userRoles = _dbContext.UserRoles.Where(x => x.UserId == userId).Select(x => x.RoleId).ToList();
@@ -79,24 +102,6 @@ namespace MyAutoFix.Areas.Admin.Controllers
         }
 
         //[HttpGet]
-        //public IActionResult GetTest()
-        //{
-        //    var users = new List<UserProfileViewModel>();
-        //    for (int i = 0; i < 10000; i++)
-        //    {
-        //        users.Add(new UserProfileViewModel
-        //        {
-        //            Email = "Deneme" + i,
-        //            Surname = "Soyad" + i,
-        //            Name = "ad" + i
-        //        });
-        //    }
-
-        //    return Ok(new JsonResponseViewModel()
-        //    {
-        //        Data = users
-        //    });
-        //}//[HttpGet]
         //public IActionResult GetTest()
         //{
         //    var users = new List<UserProfileViewModel>();
