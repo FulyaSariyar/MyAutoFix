@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyAutoFix.Data;
 
 namespace MyAutoFix.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20220218080054_subs")]
+    partial class subs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -294,8 +296,7 @@ namespace MyAutoFix.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
-                        .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");

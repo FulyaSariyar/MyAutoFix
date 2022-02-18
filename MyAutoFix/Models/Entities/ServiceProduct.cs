@@ -1,6 +1,9 @@
-﻿namespace MyAutoFix.Models.Entities
+﻿using MyAutoFix.Models.Abstracts;
+using System;
+
+namespace MyAutoFix.Models.Entities
 {
-    public class ServiceProduct:BaseEntity
+    public class ServiceProduct : BaseEntity<Guid>
     {
         public string Name { get; set; }
         public string PicturePath { get; set; }

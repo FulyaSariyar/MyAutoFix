@@ -21,6 +21,7 @@ namespace MyAutoFix
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -69,6 +70,7 @@ namespace MyAutoFix
 
             });
             services.AddApplicationServices(this.Configuration);
+            services.AddAppRepositories();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -95,7 +97,6 @@ namespace MyAutoFix
 
             app.UseRouting();
 
-           
             app.UseAuthentication();
             app.UseAuthorization();
 
